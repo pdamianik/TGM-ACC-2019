@@ -1,5 +1,5 @@
 # TGM-ACC-2019
-My Solution for the TGM Advent Coding Contest 2019. This repository has it's roots in https://github.com/rasphi/TGM-ACC-2019/.
+My Solution for the TGM Advent Coding Contest 2019 expert difficulty. This repository has it's roots in https://github.com/rasphi/TGM-ACC-2019/.
 
 ## Run
 To get results either:
