@@ -1,11 +1,12 @@
 import os, sys, time
 from ..CCio import CCParser # Don't worry if you see an error here; just run the main.py in the root directory and enter this levels number (1)
 
+current_time_in_milliseconds = lambda: time.time() * 1000
 LEVEL = 1
 try:
 	import colorama
 	colorama.init()
-	VISUALIZE = True # Change this line to enable/disable the visualization of the process. Note: Disabled will be much faster
+	VISUALIZE = False # Change this line to enable/disable the visualization of the process. Note: Disabled will be much faster
 except:
 	VISUALIZE = False
 
@@ -106,13 +107,15 @@ def main(path):
 	try:
 		results = []
 		surface = Height2DSurface(rawData[1:])
-		if VISUALIZE: print(surface)
 		total = (len(surface)-2) * (len(surface[0])-2)
 		current = 0
-		sys.stdout.write("\033[2J")
-		sys.stdout.write("\033[2;H")
-		sys.stdout.write(str(surface))
-		sys.stdout.write("\033[;H")
+		if VISUALIZE:
+			print(surface)
+			sys.stdout.write("\033[2J")
+			sys.stdout.write("\033[2;H")
+			sys.stdout.write(str(surface))
+			sys.stdout.write("\033[;H")
+		start = current_time_in_milliseconds()
 		for rowIndex in range(1, len(surface) - 1):
 			row = surface[rowIndex]
 			for columnIndex in range(1, len(row) - 1):
@@ -130,12 +133,14 @@ def main(path):
 				else:
 					print("[#] Process: " + str(round(current/total*100, 2)) + "%", end="\r")
 				current += 1
+		end = current_time_in_milliseconds()
 		if VISUALIZE:
 			sys.stdout.write("\033[;H")
 			print("[+] Process (100%):  ")
 			sys.stdout.write("\033["+str(3+len(surface))+";H")
 		else:
 			print("[+] Process: 100%  ")
+		print("[#] This took " + str(end - start) + " milliseconds to process")
 		resultData = str(len(results)) + "\n" + "\n".join([str(x) for x in sorted(results, reverse=True)])
 	except Exception as e:
 		print("[-] Exception " + str(e) + " Aborting.")
