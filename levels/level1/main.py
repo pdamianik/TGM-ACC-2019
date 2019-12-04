@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, time
 from ..CCio import CCParser # Don't worry if you see an error here; just run the main.py in the root directory and enter this levels number (1)
 
 LEVEL = 1
@@ -119,7 +119,7 @@ def main(path):
 					print("[#] Process (" + str(round(current/total*100, 2)) + "%): ")
 				else:
 					print("[#] Process: " + str(round(current/total*100, 2)) + "%", end="\r")
-				if VISUALIZE: sys.stdout.write(surface)
+				if VISUALIZE: sys.stdout.write(str(surface))
 				current += 1
 		if VISUALIZE:
 			if os.name == 'nt':
@@ -127,7 +127,7 @@ def main(path):
 			else:
 				sys.stdout.write("\033[;H")
 			print("[+] Process (100%):  ")
-			sys.stdout.write(surface)
+			sys.stdout.write(str(surface))
 		else:
 			print("[+] Process: 100%  ")
 		resultData = str(len(results)) + "\n" + "\n".join([str(x) for x in sorted(results, reverse=True)])
