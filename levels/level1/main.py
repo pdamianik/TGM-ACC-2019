@@ -65,16 +65,16 @@ class Height2DSurface:
 		return LandingSpot(x, y, Height2DSurface(surface))
 	def setInitial(self, x, y):
 		self.renderData[y][x] = [colorama.Style.RESET_ALL, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+2)+";"+str(4+4*x)+"H" + str(self.surface[y][x]))
+		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + str(self.surface[y][x]))
 	def setActive(self, x, y):
 		self.renderData[y][x] = [colorama.Back.LIGHTBLACK_EX, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+2)+";"+str(4+4*x)+"H" + colorama.Back.LIGHTBLACK_EX + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
+		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.LIGHTBLACK_EX + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
 	def setFound(self, x, y):
 		self.renderData[y][x] = [colorama.Back.GREEN, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+2)+";"+str(4+4*x)+"H" + colorama.Back.GREEN + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
+		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.GREEN + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
 	def setNotFound(self, x, y):
 		self.renderData[y][x] = [colorama.Back.YELLOW + colorama.Fore.BLACK, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+2)+";"+str(4+4*x)+"H" + colorama.Back.YELLOW + colorama.Fore.BLACK + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
+		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.YELLOW + colorama.Fore.BLACK + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
 	def renderChanges(self):
 		changes, self._changes = self._changes, []
 		return "".join(changes)
@@ -110,10 +110,9 @@ def main(path):
 		total = (len(surface)-2) * (len(surface[0])-2)
 		current = 0
 		sys.stdout.write("\033[2J")
-		sys.stdout.write("\033[1;H")
+		sys.stdout.write("\033[2;H")
 		sys.stdout.write(str(surface))
 		sys.stdout.write("\033[;H")
-		sys.exit(0)
 		for rowIndex in range(1, len(surface) - 1):
 			row = surface[rowIndex]
 			for columnIndex in range(1, len(row) - 1):
