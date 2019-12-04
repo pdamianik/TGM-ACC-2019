@@ -100,6 +100,7 @@ def main(path):
 		if VISUALIZE: print(surface)
 		total = (len(surface)-2) * (len(surface[0])-2)
 		current = 0
+		sys.stdout.write("\033[2J")
 		for rowIndex in range(1, len(surface) - 1):
 			row = surface[rowIndex]
 			for columnIndex in range(1, len(row) - 1):
@@ -114,19 +115,19 @@ def main(path):
 					if os.name == 'nt':
 						os.system("cls")
 					else:
-						os.system("clear")
+						sys.stdout.write("\033[;H")
 					print("[#] Process (" + str(round(current/total*100, 2)) + "%): ")
 				else:
 					print("[#] Process: " + str(round(current/total*100, 2)) + "%", end="\r")
-				if VISUALIZE: print(surface)
+				if VISUALIZE: sys.stdout.write(surface)
 				current += 1
 		if VISUALIZE:
 			if os.name == 'nt':
 				os.system("cls")
 			else:
-				os.system("clear")
+				sys.stdout.write("\033[;H")
 			print("[+] Process (100%):  ")
-			print(surface)
+			sys.stdout.write(surface)
 		else:
 			print("[+] Process: 100%  ")
 		resultData = str(len(results)) + "\n" + "\n".join([str(x) for x in sorted(results, reverse=True)])
