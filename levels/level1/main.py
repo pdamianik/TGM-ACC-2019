@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, time
 from ..CCio import CCParser # Don't worry if you see an error here; just run the main.py in the root directory and enter this levels number (1)
 
 LEVEL = 1
