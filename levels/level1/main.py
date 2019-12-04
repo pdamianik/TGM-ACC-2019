@@ -65,15 +65,19 @@ class Height2DSurface:
 		return LandingSpot(x, y, Height2DSurface(surface))
 	def setInitial(self, x, y):
 		self.renderData[y][x] = [colorama.Style.RESET_ALL, colorama.Style.RESET_ALL]
+		self._changes.append("\033["+str(y+2)+";"+str(4+4*x)+"H" + str(self.surface[y][x]))
 	def setActive(self, x, y):
 		self.renderData[y][x] = [colorama.Back.LIGHTBLACK_EX, colorama.Style.RESET_ALL]
+		self._changes.append("\033["+str(y+2)+";"+str(4+4*x)+"H" + colorama.Back.LIGHTBLACK_EX + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
 	def setFound(self, x, y):
 		self.renderData[y][x] = [colorama.Back.GREEN, colorama.Style.RESET_ALL]
+		self._changes.append("\033["+str(y+2)+";"+str(4+4*x)+"H" + colorama.Back.GREEN + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
 	def setNotFound(self, x, y):
 		self.renderData[y][x] = [colorama.Back.YELLOW + colorama.Fore.BLACK, colorama.Style.RESET_ALL]
+		self._changes.append("\033["+str(y+2)+";"+str(4+4*x)+"H" + colorama.Back.YELLOW + colorama.Fore.BLACK + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
 	def renderChanges(self):
 		changes, self._changes = self._changes, []
-		return str(changes)
+		return "".join(changes)
 	def __str__(self):
 		result = " "*3 + "".join([str(x).rjust(2) + " "*2 for x in range(len(self.surface[0]))]) + "\n"
 		for rowIndex in range(len(self.surface)):
@@ -106,6 +110,7 @@ def main(path):
 		total = (len(surface)-2) * (len(surface[0])-2)
 		current = 0
 		sys.stdout.write("\033[2J")
+		sys.stdout.write(str(surface))
 		for rowIndex in range(1, len(surface) - 1):
 			row = surface[rowIndex]
 			for columnIndex in range(1, len(row) - 1):
@@ -119,14 +124,14 @@ def main(path):
 				if VISUALIZE:
 					sys.stdout.write("\033[;H")
 					print("[#] Process (" + str(round(current/total*100, 2)) + "%): ")
+					sys.stdout.write(surface.renderChanges())
 				else:
 					print("[#] Process: " + str(round(current/total*100, 2)) + "%", end="\r")
-				if VISUALIZE: sys.stdout.write(str(surface))
 				current += 1
 		if VISUALIZE:
 			sys.stdout.write("\033[;H")
 			print("[+] Process (100%):  ")
-			sys.stdout.write(str(surface))
+			sys.stdout.write("\033["+str(3+len(surface))+";H")
 		else:
 			print("[+] Process: 100%  ")
 		resultData = str(len(results)) + "\n" + "\n".join([str(x) for x in sorted(results, reverse=True)])
