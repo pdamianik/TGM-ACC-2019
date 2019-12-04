@@ -49,7 +49,9 @@ class LandingSpot:
 class Height2DSurface:
 	def __init__(self, surface):
 		self.surface = surface
-		if VISUALIZE: self.renderData = [[[colorama.Style.RESET_ALL, colorama.Style.RESET_ALL]]*len(x) for x in surface]
+		if VISUALIZE:
+			self.renderData = [[[colorama.Style.RESET_ALL, colorama.Style.RESET_ALL]]*len(x) for x in surface]
+			self._changes = []
 	def __getitem__(self, key):
 		return self.surface[key]
 	def __iter__(self):
@@ -69,6 +71,9 @@ class Height2DSurface:
 		self.renderData[y][x] = [colorama.Back.GREEN, colorama.Style.RESET_ALL]
 	def setNotFound(self, x, y):
 		self.renderData[y][x] = [colorama.Back.YELLOW + colorama.Fore.BLACK, colorama.Style.RESET_ALL]
+	def renderChanges(self):
+		changes, self._changes = self._changes, []
+		return str(changes)
 	def __str__(self):
 		result = " "*3 + "".join([str(x).rjust(2) + " "*2 for x in range(len(self.surface[0]))]) + "\n"
 		for rowIndex in range(len(self.surface)):
@@ -112,22 +117,16 @@ def main(path):
 				else:
 					if VISUALIZE: surface.setNotFound(columnIndex, rowIndex)
 				if VISUALIZE:
-					if os.name == 'nt':
-						os.system("cls")
-					else:
-						sys.stdout.write("\033[;H")
+					sys.stdout.write("\033[;H")
 					print("[#] Process (" + str(round(current/total*100, 2)) + "%): ")
 				else:
 					print("[#] Process: " + str(round(current/total*100, 2)) + "%", end="\r")
-				if VISUALIZE: sys.stdout.write(surface)
+				if VISUALIZE: sys.stdout.write(str(surface))
 				current += 1
 		if VISUALIZE:
-			if os.name == 'nt':
-				os.system("cls")
-			else:
-				sys.stdout.write("\033[;H")
+			sys.stdout.write("\033[;H")
 			print("[+] Process (100%):  ")
-			sys.stdout.write(surface)
+			sys.stdout.write(str(surface))
 		else:
 			print("[+] Process: 100%  ")
 		resultData = str(len(results)) + "\n" + "\n".join([str(x) for x in sorted(results, reverse=True)])
