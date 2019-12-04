@@ -110,7 +110,10 @@ def main(path):
 		total = (len(surface)-2) * (len(surface[0])-2)
 		current = 0
 		sys.stdout.write("\033[2J")
+		sys.stdout.write("\033[1;H")
 		sys.stdout.write(str(surface))
+		sys.stdout.write("\033[;H")
+		sys.exit(0)
 		for rowIndex in range(1, len(surface) - 1):
 			row = surface[rowIndex]
 			for columnIndex in range(1, len(row) - 1):
@@ -123,7 +126,7 @@ def main(path):
 					if VISUALIZE: surface.setNotFound(columnIndex, rowIndex)
 				if VISUALIZE:
 					sys.stdout.write("\033[;H")
-					print("[#] Process (" + str(round(current/total*100, 2)) + "%): ")
+					sys.stdout.write("[#] Process (" + str(round(current/total*100, 2)) + "%): ")
 					sys.stdout.write(surface.renderChanges())
 				else:
 					print("[#] Process: " + str(round(current/total*100, 2)) + "%", end="\r")
