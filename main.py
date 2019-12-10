@@ -1,4 +1,4 @@
-import os, levels, sys, traceback
+import os, sys, traceback, levels
 from importlib import reload, import_module
 
 def run(level):

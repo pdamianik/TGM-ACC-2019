@@ -6,7 +6,7 @@ LEVEL = 1
 try:
 	import colorama
 	colorama.init()
-	VISUALIZE = False # Change this line to enable/disable the visualization of the process. Note: Disabled will be much faster
+	VISUALIZE = True # Change this line to enable/disable the visualization of the process. Note: Disabled will be much faster
 except:
 	VISUALIZE = False
 
@@ -66,16 +66,16 @@ class Height2DSurface:
 		return LandingSpot(x, y, Height2DSurface(surface))
 	def setInitial(self, x, y):
 		self.renderData[y][x] = [colorama.Style.RESET_ALL, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + str(self.surface[y][x]))
+		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + str(self.surface[y][x])).rjust(2)
 	def setActive(self, x, y):
 		self.renderData[y][x] = [colorama.Back.LIGHTBLACK_EX, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.LIGHTBLACK_EX + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
+		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.LIGHTBLACK_EX + str(self.surface[y][x]).rjust(2) + colorama.Style.RESET_ALL)
 	def setFound(self, x, y):
 		self.renderData[y][x] = [colorama.Back.GREEN, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.GREEN + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
+		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.GREEN + str(self.surface[y][x]).rjust(2) + colorama.Style.RESET_ALL)
 	def setNotFound(self, x, y):
 		self.renderData[y][x] = [colorama.Back.YELLOW + colorama.Fore.BLACK, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.YELLOW + colorama.Fore.BLACK + str(self.surface[y][x]) + colorama.Style.RESET_ALL)
+		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.YELLOW + colorama.Fore.BLACK + str(self.surface[y][x]).rjust(2) + colorama.Style.RESET_ALL)
 	def renderChanges(self):
 		changes, self._changes = self._changes, []
 		return "".join(changes)
@@ -87,7 +87,7 @@ class Height2DSurface:
 			for columnIndex in range(len(row)):
 				column = row[columnIndex]
 				renderData = self.renderData[rowIndex][columnIndex]
-				tmp.append(str(renderData[0]) + str(column) + str(renderData[1]))
+				tmp.append(str(renderData[0]) + str(column).rjust(2) + str(renderData[1]))
 			result += str(rowIndex).ljust(3) + ", ".join(tmp) + "\n"
 		return result
 
@@ -119,7 +119,6 @@ def main(path):
 		for rowIndex in range(1, len(surface) - 1):
 			row = surface[rowIndex]
 			for columnIndex in range(1, len(row) - 1):
-				if VISUALIZE: surface.setActive(columnIndex, rowIndex)
 				landingSpot = surface.getLandingSpotAt(columnIndex, rowIndex)
 				if landingSpot.canLand():
 					if VISUALIZE: surface.setFound(columnIndex, rowIndex)
