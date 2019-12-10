@@ -5,7 +5,7 @@ from ..CCio import CCParser
 try:
 	import colorama
 	colorama.init()
-	VISUALIZE = False # Change this line to enable/disable the visualization of the process. Note: Disabled will be much faster
+	VISUALIZE = True # Change this line to enable/disable the visualization of the process. Note: Disabled will be much faster
 except:
 	VISUALIZE = False
 
