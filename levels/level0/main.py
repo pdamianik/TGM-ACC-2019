@@ -12,7 +12,7 @@ def main(path):
 		data = f.parse()
 
 	print("[+] Successfully parsed input file: " + path)
-	print("[#] Data: " + str(data))
+	print("[#] Data:", str(data), sep="\n")
 
 	print()
 	print("[*] Starting to process...")
@@ -25,9 +25,10 @@ def main(path):
 		sys.exit(1)
 
 	print("[+] Finished to process!")
-	print("[#] Result: " + resultData)
+	print()
+	print("[#] Result:", resultData, sep="\n")
 
-	with open(path[:-2] + "out") as f:
+	with open(path[:-2] + "out", "w") as f:
 		f.write(resultData)
 
 	return resultData

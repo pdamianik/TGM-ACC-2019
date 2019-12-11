@@ -122,7 +122,7 @@ def main(path):
 	craters = []
 
 	print("[+] Successfully parsed input file: " + path)
-	print("[#] Data: " + str(data))
+	print("[#] Data:", str(data), sep="\n")
 
 	print()
 	print("[*] Starting to process...")
@@ -164,7 +164,8 @@ def main(path):
 	print()
 
 	print("[+] Finished to process!")
-	print("[#] Result: " + resultData)
+	print()
+	print("[#] Result:", resultData, sep="\n")
 
 	with open(path[:-2] + "out", "w") as f:
 		f.write(resultData)
