@@ -28,3 +28,9 @@ To get results either:
  ```
  
 The results will then be written to the `.out` files in the level directory with the same name as there corresponding `.in` files (e.g. `example.in` -> `example.out`).
+
+## Contact
+ - username: pdamianik
+ - email: pdamianik@student.tgm.ac.at
+ - name: Philip Damianik
+ - class: 2BHIT
