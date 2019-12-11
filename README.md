@@ -8,14 +8,18 @@ To get results either:
  ```
  the/repository/location> python main.py
  Level: 0
- The output of the level
+ The output of level0
  ```
  
- - execute the `main.py` in the level folder from the root folder of this repository:
+ - import/reload the main.py in the level folder from the root folder of this repository:
  
  ```
- the/repository/location> python level0/main.py
- The output of the level
+ the/repository/location> python
+ >>> import sys
+ >>> from levels.level0 import main
+ The output of level0
+ >>> reload(sys.modules["levels.level0.main"])
+ The output of level0
  ```
  
 The results will then be written to the `.out` files in the level directory with the same name as there corresponding `.in` files (e.g. `example.in` -> `example.out`).
