@@ -81,7 +81,7 @@ class Height2DSurface:
 		if checkHeight == None or not self.toCheck[checkCoordinates[1]][checkCoordinates[0]] or checkHeight > 20:
 			if VISUALIZE and (checkHeight >= 20 or checkHeight == None): self.setNotFound(checkCoordinates[0], checkCoordinates[1])
 			return None
-		if checkCoordinates == (2,0) or previousHeight != None and abs(checkHeight-previousHeight) > 1:
+		if previousHeight != None and abs(checkHeight-previousHeight) > 1:
 			self.setNotFound(checkCoordinates[0], checkCoordinates[1])
 			return None
 		crater.appendField(checkCoordinates)

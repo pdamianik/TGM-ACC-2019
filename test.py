@@ -10,7 +10,11 @@ expectedResults = {
 	2: {
 		"example.out": "2\n"+
 		"2 2\n"+
-		"2 5"
+		"2 5",
+		"example2.out": "3\n"+
+		"2 3\n"+
+		"2 3\n"+
+		"2 2"
 	}
 }
 
