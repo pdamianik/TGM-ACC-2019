@@ -60,20 +60,25 @@ class Height2DSurface:
 	def __len__(self):
 		return len(self.surface)
 	def setInitial(self, x, y):
-		self.renderData[y][x] = [colorama.Style.RESET_ALL, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + str(self.surface[y][x]).rjust(2))
+		if VISUALIZE:
+			self.renderData[y][x] = [colorama.Style.RESET_ALL, colorama.Style.RESET_ALL]
+			self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + str(self.surface[y][x]).rjust(2))
 	def setActive(self, x, y):
-		self.renderData[y][x] = [colorama.Back.LIGHTBLACK_EX, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.LIGHTBLACK_EX + str(self.surface[y][x]).rjust(2) + colorama.Style.RESET_ALL)
+		if VISUALIZE:
+			self.renderData[y][x] = [colorama.Back.LIGHTBLACK_EX, colorama.Style.RESET_ALL]
+			self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.LIGHTBLACK_EX + str(self.surface[y][x]).rjust(2) + colorama.Style.RESET_ALL)
 	def setFound(self, x, y):
-		self.renderData[y][x] = [colorama.Back.GREEN, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.GREEN + str(self.surface[y][x]).rjust(2) + colorama.Style.RESET_ALL)
+		if VISUALIZE:
+			self.renderData[y][x] = [colorama.Back.GREEN, colorama.Style.RESET_ALL]
+			self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.GREEN + str(self.surface[y][x]).rjust(2) + colorama.Style.RESET_ALL)
 	def setNotFound(self, x, y):
-		self.renderData[y][x] = [colorama.Back.YELLOW + colorama.Fore.BLACK, colorama.Style.RESET_ALL]
-		self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.YELLOW + colorama.Fore.BLACK + str(self.surface[y][x]).rjust(2) + colorama.Style.RESET_ALL)
+		if VISUALIZE:
+			self.renderData[y][x] = [colorama.Back.YELLOW + colorama.Fore.BLACK, colorama.Style.RESET_ALL]
+			self._changes.append("\033["+str(y+3)+";"+str(4+4*x)+"H" + colorama.Back.YELLOW + colorama.Fore.BLACK + str(self.surface[y][x]).rjust(2) + colorama.Style.RESET_ALL)
 	def renderChanges(self):
-		changes, self._changes = self._changes, []
-		return "".join(changes)
+		if VISUALIZE:
+			changes, self._changes = self._changes, []
+			return "".join(changes)
 	def checked(self, x, y):
 		self.toCheck[y][x] = False
 	def findCrater(self, checkCoordinates, crater, previousHeight=None):
@@ -142,7 +147,6 @@ def main(path):
 		total = (len(grid)) * (len(grid[0]))
 		current = 0
 		if VISUALIZE:
-			print(grid)
 			sys.stdout.write("\033[2J")
 			sys.stdout.write("\033[2;H")
 			sys.stdout.write(str(grid))
