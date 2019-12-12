@@ -1,6 +1,10 @@
 # TGM-ACC-2019
 My Solution for the TGM Advent Coding Contest 2019 expert difficulty. Public version of this repository @ https://github.com/pdamianik/TGM-ACC-2019/.
 
+## Adding custom input files
+
+To Add your own input files you just need to add a .in file into the directory of the level you want to handle the input file
+
 ## Run
 To get results either:
  - run the `main.py` in the root directory and enter the number of the level you want to execute:
