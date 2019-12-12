@@ -28,6 +28,8 @@ class Crater:
 		self.distance = math.sqrt((self.landingSpot[0]-self.weightpoint[0])*(self.landingSpot[0]-self.weightpoint[0]) + (self.landingSpot[1]-self.weightpoint[1])*(self.landingSpot[1]-self.weightpoint[1]))
 		self.points.append(point)
 		self.weightpoint = [self.totalX/self.size, self.totalY/self.size]
+	def __len__(self):
+		return self.size
 	def __ge__(self, otherCrater):
 		return self.distance >= otherCrater.distance
 	def __gt__(self, otherCrater):
@@ -74,12 +76,14 @@ class Height2DSurface:
 		return "".join(changes)
 	def checked(self, x, y):
 		self.toCheck[y][x] = False
-	def findCrater(self, checkCoordinates, crater, firstLayer=True):
+	def findCrater(self, checkCoordinates, crater, previousHeight=None):
 		checkHeight = self.surface[checkCoordinates[1]][checkCoordinates[0]]
 		if checkHeight == None or not self.toCheck[checkCoordinates[1]][checkCoordinates[0]] or checkHeight > 20:
 			if VISUALIZE and (checkHeight >= 20 or checkHeight == None): self.setNotFound(checkCoordinates[0], checkCoordinates[1])
 			return None
-		if VISUALIZE: self.setFound(checkCoordinates[0], checkCoordinates[1])
+		if checkCoordinates == (2,0) or previousHeight != None and abs(checkHeight-previousHeight) > 1:
+			self.setNotFound(checkCoordinates[0], checkCoordinates[1])
+			return None
 		crater.appendField(checkCoordinates)
 		self.checked(checkCoordinates[0], checkCoordinates[1])
 		found = False
@@ -90,12 +94,18 @@ class Height2DSurface:
 			x = checkCoordinates[0]+offset[0]
 			y = checkCoordinates[1]+offset[1]
 			if y < 0 or y > len(self.surface)-1 or x < 0 or x > len(self.surface[0])-1: continue
-			tmpCrater = self.findCrater((x, y), crater, False)
+			tmpCrater = self.findCrater((x, y), crater, checkHeight)
 			if tmpCrater != None:
 				found = True
 				crater = tmpCrater
 
-		if found or not firstLayer:
+		if VISUALIZE:
+			if len(crater) > 1:
+				self.setFound(checkCoordinates[0], checkCoordinates[1])
+			else:
+				self.setNotFound(checkCoordinates[0], checkCoordinates[1])
+
+		if found or previousHeight == None and len(crater) > 1:
 			return crater
 		return None
 	def __str__(self):
@@ -148,6 +158,7 @@ def main(path):
 					sys.stdout.write("\033[;H")
 					sys.stdout.write("[#] Process (" + str(round(current/total*100, 2)) + "%): ")
 					sys.stdout.write(grid.renderChanges())
+					pass
 				else:
 					print("[#] Process: " + str(round(current/total*100, 2)) + "%", end="\r")
 				current += 1
@@ -155,6 +166,7 @@ def main(path):
 			sys.stdout.write("\033[;H")
 			print("[+] Process (100%):  ")
 			sys.stdout.write("\033["+str(3+len(grid))+";H")
+			pass
 		else:
 			print("[+] Process: 100%  ")
 		resultData = str(len(craters)) + "\n" +  "\n".join([str(x) for x in sorted(craters, reverse=True)])
