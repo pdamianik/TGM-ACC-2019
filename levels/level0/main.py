@@ -20,9 +20,9 @@ def run(path):
 	try:
 		# here goes the main code
 		pass
-	except:
-		print("[-] Failed to process... Aborting.")
-		sys.exit(1)
+	except Exception as e:
+		print("[-] Exception " + str(e) + " Aborting.")
+		raise e
 
 	print("[+] Finished to process!")
 	print()
