@@ -125,7 +125,7 @@ class Height2DSurface:
 			result += str(rowIndex).ljust(3) + ", ".join(tmp) + "\n"
 		return result
 
-def main(path):
+def run(path):
 	print("[*] Parsing input file: " + path)
 
 	resultData = ""
@@ -147,6 +147,7 @@ def main(path):
 		total = (len(grid)) * (len(grid[0]))
 		current = 0
 		if VISUALIZE:
+			sys.stdout.write(str(grid))
 			sys.stdout.write("\033[2J")
 			sys.stdout.write("\033[2;H")
 			sys.stdout.write(str(grid))
@@ -170,7 +171,6 @@ def main(path):
 			sys.stdout.write("\033[;H")
 			print("[+] Process (100%):  ")
 			sys.stdout.write("\033["+str(3+len(grid))+";H")
-			pass
 		else:
 			print("[+] Process: 100%  ")
 		resultData = str(len(craters)) + "\n" +  "\n".join([str(x) for x in sorted(craters, reverse=True)])
@@ -188,4 +188,5 @@ def main(path):
 
 	return resultData
 
-[main(os.path.abspath(os.path.dirname(__file__)) + os.sep + path) if path.endswith(".in") else path for path in os.listdir(os.path.abspath(os.path.dirname(__file__)))]
+def main():
+	[run(os.path.abspath(os.path.dirname(__file__)) + os.sep + path) if path.endswith(".in") else path for path in os.listdir(os.path.abspath(os.path.dirname(__file__)))]

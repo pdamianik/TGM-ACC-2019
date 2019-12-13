@@ -91,7 +91,7 @@ class Height2DSurface:
 			result += str(rowIndex).ljust(3) + ", ".join(tmp) + "\n"
 		return result
 
-def main(path):
+def run(path):
 	print("[*] Parsing input file: " + path)
 
 	resultData = ""
@@ -154,4 +154,5 @@ def main(path):
 
 	return resultData
 
-[main(os.path.abspath(os.path.dirname(__file__)) + os.sep + path) if path.endswith(".in") else path for path in os.listdir(os.path.abspath(os.path.dirname(__file__)))]
+def main():
+	[run(os.path.abspath(os.path.dirname(__file__)) + os.sep + path) if path.endswith(".in") else path for path in os.listdir(os.path.abspath(os.path.dirname(__file__)))]

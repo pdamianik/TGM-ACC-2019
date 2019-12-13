@@ -18,7 +18,7 @@ expectedResults = {
 	}
 }
 
-if __name__ == "__main__":
+def test():
 	for key in expectedResults:
 		outputFiles = expectedResults[key]
 		levelPath = os.path.abspath("." + os.sep + "levels" + os.sep + "level" + str(key)) + os.sep
@@ -33,3 +33,6 @@ if __name__ == "__main__":
 				print("[*] Expected data: " + expectedResult)
 				print("[*] Result data: " + data)
 				assert expectedResult == data
+
+if __name__ == "__main__":
+	test()

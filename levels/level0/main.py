@@ -4,7 +4,7 @@ from ..CCio import CCParser
 
 LEVEL = 0
 
-def main(path):
+def run(path):
 	print("[*] Parsing input file: " + path)
 
 	resultData = ""
@@ -33,5 +33,5 @@ def main(path):
 
 	return resultData
 
-if __name__ == '__main__':
-	[main(os.path.abspath(os.path.dirname(__file__)) + os.sep + path) if path.endswith(".in") else path for path in os.listdir(os.path.abspath(os.path.dirname(__file__)))]
+def main():
+	[run(os.path.abspath(os.path.dirname(__file__)) + os.sep + path) if path.endswith(".in") else path for path in os.listdir(os.path.abspath(os.path.dirname(__file__)))]
